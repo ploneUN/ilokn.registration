@@ -1,0 +1,6 @@
+<layers>
+ <layer
+     name="ILOKN Registration"
+     interface="ilokn.registration.interfaces.IProductSpecific"
+     />
+</layers>

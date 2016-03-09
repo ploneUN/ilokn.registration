@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<componentregistry>
+ <adapters/>
+ <utilities>
+  <utility
+    interface="ilokn.registration.interfaces.IRegistrationApproval"
+    object="portal_registration_approval"/>
+ </utilities>
+</componentregistry>

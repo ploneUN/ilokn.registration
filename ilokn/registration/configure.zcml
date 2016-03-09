@@ -1,0 +1,41 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+           xmlns:cmf="http://namespaces.zope.org/cmf"
+           xmlns:browser="http://namespaces.zope.org/browser">
+
+    <include package="plone.app.users"/>
+    <include package="plone.app.controlpanel" file="permissions.zcml"/>
+    <include package="quintagroup.formlib.captcha"/>
+
+
+  <genericsetup:registerProfile
+      name="default"
+      title="ILOKN Registration System"
+      directory="profiles/default"
+      description='Staged registration system for ILOKN'
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+    <include package=".browser"/>
+
+  <cmf:registerDirectory
+      name="skins"
+      directory="skins"
+      recursive="True"
+      />
+
+    <subscriber 
+        for=".interfaces.IUserRegisteredEvent"
+        handler=".mailnotification.handle_register" />
+
+    <subscriber 
+        for=".interfaces.IUserRegisteredEvent"
+        handler=".mailnotification.handle_notify_register" />
+
+ 
+    <subscriber 
+        for=".interfaces.IUserApprovedEvent"
+        handler=".mailnotification.handle_approve" />
+
+
+</configure>
