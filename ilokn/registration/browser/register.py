@@ -12,15 +12,18 @@ from zope.component import getUtility
 from zope.app.form.interfaces import WidgetInputError, InputErrors
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.schema.interfaces import ValidationError
+from ilokn.registration.interfaces import IExtendRegistrationForm, ExtendRegistrationForm
+from zope.interface import implements
 
 class RegisterForm(RegistrationForm):
-   
+    implements(IExtendRegistrationForm)
     template = ViewPageTemplateFile('register_form.pt')
 
     @property
     def form_fields(self):
         #defaultFields = super(RegisterForm, self).form_fields
         defaultFields = BaseRegistrationForm(self, self.context).form_fields
+        defaultFields += form.Fields(ExtendRegistrationForm)
         schema = getUtility(IUserDataSchemaProvider).getSchema()
         
         #registrationfields = getUtility(
