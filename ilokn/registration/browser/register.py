@@ -2,7 +2,7 @@ from Products.Five import BrowserView
 from zope import schema
 from zope.interface import Interface
 from plone.z3cform import layout
-from plone.app.users.browser.register import RegistrationForm
+from plone.app.users.browser.register import RegistrationForm, BaseRegistrationForm
 from zope.formlib import form
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.CMFCore.utils import getToolByName
@@ -19,14 +19,16 @@ class RegisterForm(RegistrationForm):
 
     @property
     def form_fields(self):
-        defaultFields = super(RegisterForm, self).form_fields
+        #defaultFields = super(RegisterForm, self).form_fields
+        defaultFields = BaseRegistrationForm(self, self.context).form_fields
         schema = getUtility(IUserDataSchemaProvider).getSchema()
-        registrationfields = getUtility(
-            IUserDataSchemaProvider
-        ).getRegistrationFields()
-
-        return (defaultFields.omit('password', 'password_ctl', 'mail_me') + 
-                form.Fields(schema).select(*registrationfields))
+        
+        #registrationfields = getUtility(
+        #    IUserDataSchemaProvider
+        #).getRegistrationFields()
+        #return (defaultFields.omit('password', 'password_ctl', 'mail_me') + 
+        #        form.Fields(schema).select(*registrationfields))
+        return defaultFields.omit('password', 'password_ctl', 'mail_me')
 
     def validate_registration(self, action, data):
         errors = super(RegisterForm, self).validate_registration(action,data)
